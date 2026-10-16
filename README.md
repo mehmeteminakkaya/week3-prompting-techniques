@@ -28,3 +28,7 @@ Iterate the prompt until the check passes.
 All four checks pass with `llama3.1:8b` (Ollama, temperature 0). See [`writeup.md`](writeup.md)
 for the final prompts, sample input/output, and what each technique changed, and
 [`final_runs.txt`](final_runs.txt) for the full check output.
+
+## Week 3 submission
+This repo is part 2 of my Week 3 submission. Part 1 (Gemini CLI dissection) is the pull
+request [scottyUX/AI-Augmented-Software-Engineering#132](https://github.com/scottyUX/AI-Augmented-Software-Engineering/pull/132).
