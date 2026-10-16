@@ -23,3 +23,8 @@ Iterate the prompt until the check passes.
 - `chain_of_thought.py` — refund eligibility
 - `tool_calling.py` — order lookup via a tool call
 - `rag.py` — answer grounded only in `data/help_center.txt`
+
+## Results
+All four checks pass with `llama3.1:8b` (Ollama, temperature 0). See [`writeup.md`](writeup.md)
+for the final prompts, sample input/output, and what each technique changed, and
+[`final_runs.txt`](final_runs.txt) for the full check output.

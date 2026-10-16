@@ -20,13 +20,33 @@ def load_chunks() -> list[str]:
         return [line.strip() for line in f if line.strip()]
 
 
-# TODO: return the subset of chunks relevant to `question` (simple keyword overlap is fine).
+STOPWORDS = {
+    "a", "an", "the", "is", "are", "do", "does", "you", "your", "i", "my", "me", "to",
+    "of", "in", "on", "for", "and", "or", "what", "what's", "how", "long", "have",
+    "can", "it", "item", "we", "our",
+}
+
+
+def _keywords(text: str) -> set[str]:
+    words = (w.strip("?.,!:;'\"").lower() for w in text.split())
+    # crude stemming: first 5 letters, so "returns"/"return" and
+    # "internationally"/"international" share a keyword
+    return {w[:5] for w in words if w and w not in STOPWORDS}
+
+
+# Keyword-overlap retriever: rank chunks by shared keywords, keep the top 3 with any overlap.
 def YOUR_RETRIEVER(question: str, chunks: list[str]) -> list[str]:
-    return []
+    q = _keywords(question)
+    scored = [(len(q & _keywords(c)), c) for c in chunks]
+    return [c for score, c in sorted(scored, key=lambda s: -s[0]) if score > 0][:3]
 
 
-# TODO: Fill this in! Force the model to answer only from the provided context.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """You are a help-center assistant for an online store.
+Answer the question using ONLY the information in the Context. Do not use outside
+knowledge and do not guess.
+If the Context does not contain the answer, reply exactly:
+"I don't know based on our help center."
+Keep answers to one or two sentences and reuse the Context's wording where possible."""
 
 CASES = [
     ("How long do I have to return an item?", ["30 days"]),
